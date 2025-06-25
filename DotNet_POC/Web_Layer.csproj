@@ -6,4 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DataLayer_POC\Data_Layer.csproj" />
+  </ItemGroup>
+
 </Project>
