@@ -2,24 +2,36 @@
 using System.Text.Json;
 using System.Text;
 using DataLayer_POC.Model;
+using Shared_Layer;
 
 namespace Web_Layer.Controllers
 {
     public class ProductController : Controller
     {
-        public async Task<IActionResult> IndexAsync()
+        private readonly HttpClient _client;
+
+        public ProductController(IHttpClientFactory factory)
         {
-            var client = new HttpClient();
-            var product = new Product { Name = "Laptop", Price = 75000 };
-
-            // Create
-            var json = JsonSerializer.Serialize(product);
-            var response = await client.PostAsync("https://localhost:xxxx/api/product",
-                new StringContent(json, Encoding.UTF8, "application/json"));
-
-            Console.WriteLine(await response.Content.ReadAsStringAsync());
-            return View();
+            _client = factory.CreateClient("MyApiClient");
         }
-        
+
+        public async Task<IActionResult> Index()
+        {
+            var response = await _client.GetAsync("order");
+            var json = await response.Content.ReadAsStringAsync();
+            var result = JsonSerializer.Deserialize<ApiResponse<List<Product>>>(json, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+            return View(result?.Data);
+        }
+
+        public IActionResult Create() => View();
+
+        [HttpPost]
+        public async Task<IActionResult> Create(Product order)
+        {
+            var json = JsonSerializer.Serialize(order);
+            var response = await _client.PostAsync("order", new StringContent(json, Encoding.UTF8, "application/json"));
+            return RedirectToAction("Index");
+        }
+
     }
 }

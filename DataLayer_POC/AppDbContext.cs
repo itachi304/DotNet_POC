@@ -7,13 +7,9 @@ namespace DataLayer_POC
     {
 
 
+        
+         public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options) { }
         public DbSet<Product> Products => Set<Product>();
-        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
-        {
-            if (!optionBuilder.IsConfigured)
-            {
-                optionBuilder.UseSqlServer("Server=PREDACER;Database=ProductDb;Trusted_Connection=True;TrustServerCertificate=True;");
-            }
-        }
     }
 }

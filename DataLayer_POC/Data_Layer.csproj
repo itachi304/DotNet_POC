@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Shared_Layer\Shared_Layer.csproj" />
+  </ItemGroup>
+
 </Project>

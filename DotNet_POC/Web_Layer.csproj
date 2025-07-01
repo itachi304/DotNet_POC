@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DataLayer_POC\Data_Layer.csproj" />
+    <ProjectReference Include="..\Shared_Layer\Shared_Layer.csproj" />
   </ItemGroup>
 
 </Project>

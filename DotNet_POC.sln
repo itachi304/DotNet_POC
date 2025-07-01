@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API_Layer", "DotNet_API_POC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data_Layer", "DataLayer_POC\Data_Layer.csproj", "{00035445-C6B3-4D41-B35F-A9F07B185912}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared_Layer", "Shared_Layer\Shared_Layer.csproj", "{A4EC0278-B7AF-42FF-9A9F-D70A52A39B76}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{00035445-C6B3-4D41-B35F-A9F07B185912}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00035445-C6B3-4D41-B35F-A9F07B185912}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00035445-C6B3-4D41-B35F-A9F07B185912}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4EC0278-B7AF-42FF-9A9F-D70A52A39B76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4EC0278-B7AF-42FF-9A9F-D70A52A39B76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4EC0278-B7AF-42FF-9A9F-D70A52A39B76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4EC0278-B7AF-42FF-9A9F-D70A52A39B76}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

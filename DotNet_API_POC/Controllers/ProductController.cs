@@ -6,6 +6,7 @@ namespace API_Layer.Controllers
     using Microsoft.EntityFrameworkCore;
     using DataLayer_POC;
     using DataLayer_POC.Model;
+    using Shared_Layer;
 
     namespace DotNet_API_POC.Controllers
     {
@@ -15,48 +16,48 @@ namespace API_Layer.Controllers
         {
             private readonly AppDbContext _context;
 
-            public ProductController(AppDbContext context)
+            public ProductController(AppDbContext context) => _context = context;
+            [HttpGet]
+            public async Task<ActionResult<ApiResponse<List<Product>>>> GetAll()
             {
-                _context = context;
+                var data = await _context.Products.ToListAsync();
+                return Ok(ApiResponse<List<Product>>.SuccessResponse(data));
             }
 
-            [HttpGet]
-            public async Task<ActionResult<IEnumerable<Product>>> GetAll()
-                => await _context.Products.ToListAsync();
-
             [HttpGet("{id}")]
-            public async Task<ActionResult<Product>> GetById(int id)
+            public async Task<ActionResult<ApiResponse<Product>>> Get(int id)
             {
-                var product = await _context.Products.FindAsync(id);
-                return product is null ? NotFound() : product;
+                var order = await _context.Products.FindAsync(id);
+                return order is null
+                    ? NotFound(ApiResponse<Product>.ErrorResponse("Order not found"))
+                    : Ok(ApiResponse<Product>.SuccessResponse(order));
             }
 
             [HttpPost]
-            public async Task<ActionResult<Product>> Create(Product product)
+            public async Task<ActionResult<ApiResponse<Product>>> Create(Product order)
             {
-                _context.Products.Add(product);
+                _context.Products.Add(order);
                 await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
+                return CreatedAtAction(nameof(Get), new { id = order.Id }, ApiResponse<Product>.SuccessResponse(order));
             }
 
             [HttpPut("{id}")]
-            public async Task<IActionResult> Update(int id, Product product)
+            public async Task<ActionResult<ApiResponse<Product>>> Update(int id, Product order)
             {
-                if (id != product.Id) return BadRequest();
-                _context.Entry(product).State = EntityState.Modified;
+                if (id != order.Id) return BadRequest(ApiResponse<Product>.ErrorResponse("ID mismatch"));
+                _context.Entry(order).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
-                return NoContent();
+                return Ok(ApiResponse<Product>.SuccessResponse(order, "Updated successfully"));
             }
 
             [HttpDelete("{id}")]
-            public async Task<IActionResult> Delete(int id)
+            public async Task<ActionResult<ApiResponse<string>>> Delete(int id)
             {
-                var product = await _context.Products.FindAsync(id);
-                if (product is null) return NotFound();
-
-                _context.Products.Remove(product);
+                var order = await _context.Products.FindAsync(id);
+                if (order is null) return NotFound(ApiResponse<string>.ErrorResponse("Order not found"));
+                _context.Products.Remove(order);
                 await _context.SaveChangesAsync();
-                return NoContent();
+                return Ok(ApiResponse<string>.SuccessResponse("Deleted successfully"));
             }
         }
     }
